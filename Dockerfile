@@ -11,7 +11,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
     openbox tint2 xdg-utils xterm hsetroot \
-    tigervnc-standalone-server supervisor sudo && \
+    tigervnc-standalone-server supervisor sudo \
+    dbus-x11 && \
     rm -rf /var/lib/apt/lists
 
 # Install applications
@@ -29,6 +30,7 @@ RUN apt-get update -y && \
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
 COPY intro.html /usr/local/share/
 COPY novnc-proxy.py /usr/local/bin/
+COPY supervisord.docker.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/novnc-proxy.py
 
 # Create user with home directory and sudo access
@@ -38,7 +40,6 @@ RUN useradd -m -s /bin/bash -G sudo user && \
     chown -R user:user /home/user
 
 # Copy configuration files
-COPY supervisord.conf /etc/
 COPY menu.xml /etc/xdg/openbox/
 COPY rc.xml /etc/xdg/openbox/
 RUN mkdir -p /root/.config/tint2 /home/user/.config/tint2 /etc/xdg/openbox
@@ -64,4 +65,4 @@ RUN echo 'hsetroot -solid "#2c3e50" &' >> /etc/xdg/openbox/autostart
 EXPOSE 5000
 WORKDIR /home/user
 USER root
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

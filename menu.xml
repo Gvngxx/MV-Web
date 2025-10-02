@@ -47,19 +47,6 @@
             </item>
         </menu>
         <separator />
-        <menu id="system" label="System">
-            <item label="Htop">
-                <action name="Execute">
-                    <execute>xterm -e htop</execute>
-                </action>
-            </item>
-            <item label="System Info">
-                <action name="Execute">
-                    <execute>xterm -e bash -c "neofetch; bash"</execute>
-                </action>
-            </item>
-        </menu>
-        <separator />
         <item label="Reconfigure Openbox">
             <action name="Reconfigure" />
         </item>
