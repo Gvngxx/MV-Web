@@ -5,3 +5,35 @@ expertMode = true
 [nix]
 channel = "stable-25_05"
 packages = ["bzip2", "curl", "feh", "firefox", "git", "go", "gzip", "hsetroot", "htop", "imagemagick", "jdk21", "jdk8", "lxterminal", "neofetch", "neovim", "nmap", "openbox", "openssh", "rsync", "terminator", "tigervnc", "tint2", "unzip", "wget", "xdg-utils", "xterm", "zip"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "VNC Desktop"
+
+[[workflows.workflow]]
+name = "VNC Desktop"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash -c \"export JAVA_HOME=$(dirname $(dirname $(which java))) && export PATH=$JAVA_HOME/bin:$PATH && cd /home/runner/workspace && supervisord -c supervisord.conf\""
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 41365
+externalPort = 3000
