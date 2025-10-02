@@ -40,4 +40,4 @@ externalPort = 3000
 
 [deployment]
 deploymentTarget = "vm"
-run = ["bash", "-c", "export JAVA_HOME=$(dirname $(dirname $(which java))) && export PATH=$JAVA_HOME/bin:$PATH && cd /home/runner/workspace && supervisord -c supervisord.conf"]
+run = ["bash", "-c", "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && export PATH=$JAVA_HOME/bin:$PATH && cd /home/runner/workspace && PYTHONPATH=/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages /home/runner/workspace/.pythonlibs/bin/python3 -m supervisor.supervisord -c supervisord.conf"]
