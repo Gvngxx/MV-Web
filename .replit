@@ -37,3 +37,7 @@ externalPort = 80
 [[ports]]
 localPort = 41365
 externalPort = 3000
+
+[deployment]
+deploymentTarget = "vm"
+run = ["bash", "-c", "export JAVA_HOME=$(dirname $(dirname $(which java))) && export PATH=$JAVA_HOME/bin:$PATH && cd /home/runner/workspace && supervisord -c supervisord.conf"]
