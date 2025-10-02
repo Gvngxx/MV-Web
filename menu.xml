@@ -9,25 +9,20 @@
         <separator />
         <item label="Terminal">
             <action name="Execute">
-                <execute>/usr/bin/x-terminal-emulator</execute>
+                <execute>/usr/bin/x-terminal-emulator -x neofetch -T Terminal </execute>
             </action>
         </item>
         <separator />
-        <item label="Python3">
+        <item label="NeoVim">
             <action name="Execute">
-                <execute>/usr/bin/x-terminal-emulator -e python3</execute>
+                <execute>/usr/bin/x-terminal-emulator -T NeoVim -e nvim</execute>
             </action>
         </item>
         <separator />
-        <item label="Vim">
+        <item label="Task">
             <action name="Execute">
-                <execute>/usr/bin/x-terminal-emulator -e vim</execute>
-            </action>
-        </item>
-        <separator />
-        <item label="Htop">
-            <action name="Execute">
-                <execute>/usr/bin/x-terminal-emulator -e htop</execute>
+                <execute>/usr/bin/x-terminal-emulator -T TaskBar
+                 -e htop</execute>
             </action>
         </item>
     </menu>

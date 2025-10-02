@@ -12,7 +12,7 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists
 
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends vim openssh-client wget curl rsync ca-certificates apulse libpulse0 firefox htop tar xzip gzip bzip2 zip unzip && \
+    apt-get install -y neovim openssh-client openssh-server wget curl nmap busybox net-tools rsync ca-certificates apulse libpulse0 firefox htop neofetch tar xzip gzip bzip2 zip unzip && \
     rm -rf /var/lib/apt/lists
 
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
@@ -22,6 +22,8 @@ RUN echo 'hsetroot -solid "#123456" &' >> /etc/xdg/openbox/autostart
 
 RUN mkdir -p /etc/firefox
 RUN echo 'pref("browser.tabs.remote.autostart", false);' >> /etc/firefox/syspref.js
+
+RUN mkdir -p /home/user/
 
 RUN mkdir -p /root/.config/tint2
 COPY tint2rc /root/.config/tint2/
