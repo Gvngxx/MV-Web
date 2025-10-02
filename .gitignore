@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pythonlibs/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# Temporary files
+*.log
+*.tmp
+/tmp/
+.X*-lock
+.X11-unix/
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Replit
+.config/
+.cache/
+.local/
+.upm/
+venv/
