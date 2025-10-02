@@ -1,0 +1,7 @@
+modules = ["python-3.11"]
+[agent]
+expertMode = true
+
+[nix]
+channel = "stable-25_05"
+packages = ["bzip2", "curl", "feh", "firefox", "git", "go", "gzip", "hsetroot", "htop", "imagemagick", "jdk21", "jdk8", "lxterminal", "neofetch", "neovim", "nmap", "openbox", "openssh", "rsync", "terminator", "tigervnc", "tint2", "unzip", "wget", "xdg-utils", "xterm", "zip"]
