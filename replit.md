@@ -1,86 +1,77 @@
-# noVNC Desktop en Replit
+# noVNC Desktop - Docker Edition
 
 ## Descripción del Proyecto
-Este es un entorno de escritorio Ubuntu completo que se ejecuta en tu navegador usando noVNC. Puedes ejecutar aplicaciones gráficas, programar en Java y Python, y personalizar tu entorno de escritorio.
+Entorno de escritorio Ubuntu completo accesible desde el navegador usando noVNC, optimizado para GitHub Codespaces y Docker.
 
-## Características Instaladas
+## Características
 
-### Lenguajes de Programación
-- **Python 3.11** - Intérprete Python incluido
-- **Java 21** - JDK 21 instalado y configurado
-- **Java 8** - JDK 8 disponible
+### Animación de Inicio
+- Animación tipo HackTheBox/PwnBox con logo de Docker
+- Efecto Matrix rain en el fondo
+- Transición automática al escritorio VNC después de 3 segundos
 
 ### Aplicaciones Instaladas
-- **Firefox** - Navegador web
-- **Terminales**: LXTerminal, Terminator, XTerm
-- **NeoVim** - Editor de texto avanzado
-- **Htop** - Monitor del sistema
-- **Neofetch** - Información del sistema
-- **Git, wget, curl** - Herramientas de desarrollo
+- **Internet**: Firefox
+- **Terminal**: XTerm
+- **Editor**: NeoVim
+- **Accesorios**: Calculadora (galculator)
+- **Multimedia**: MPlayer
+- **Gestor de Archivos**: Dolphin (KDE)
+- **Lenguajes**: Python 3, Java 21, Java 8
+- **Herramientas**: Git, wget, curl, htop, neofetch
 
-### Herramientas de Sistema
-- **Gestor de ventanas**: Openbox (ligero y personalizable)
-- **Panel**: Tint2
-- **Gestor de fondos**: feh + hsetroot
+### Configuración de Usuario
+- **Usuario**: `user`
+- **Home**: `/home/user/`
+- **Sudo password**: `linuxx`
+- **Shell**: bash
 
-## Cómo Usar
+## Uso en GitHub Codespaces
 
-1. **Conectarse al Escritorio**: 
-   - Cuando abras el proyecto, verás una pantalla con un botón "Connect"
-   - Haz clic en "Connect" para acceder al escritorio VNC
-
-2. **Acceder al Menú de Aplicaciones**:
-   - Haz clic derecho en cualquier lugar del escritorio
-   - Verás el menú con todas las aplicaciones organizadas por categorías
-
-3. **Abrir una Terminal**:
-   - Menú → Terminales → LXTerminal (o la que prefieras)
-
-4. **Ejecutar Java**:
-   - Abre una terminal
-   - Escribe `java -version` para verificar Java 21
-   - El JAVA_HOME está configurado automáticamente
-
-5. **Ejecutar Python**:
-   - Abre una terminal
-   - Escribe `python` o `python3`
-
-## Personalización
-
-### Cambiar el Fondo de Pantalla
 ```bash
-# En una terminal, ejecuta:
-feh --bg-scale /ruta/a/tu/imagen.jpg
-```
+# Construir la imagen
+docker build -t novnc-desktop .
 
-### Ventanas Centradas
-Las aplicaciones se configuraron para abrirse siempre en el centro de la pantalla automáticamente.
+# Ejecutar el contenedor
+docker run -p 5000:5000 novnc-desktop
+
+# Acceder en: http://localhost:5000
+```
 
 ## Arquitectura Técnica
 
 ### Componentes
-- **Xvnc**: Servidor VNC (puerto 5900)
-- **easy-novnc**: Cliente noVNC web (puerto 5000)
-- **Openbox**: Gestor de ventanas
+- **Xvnc**: Servidor VNC (puerto 5900 local)
+- **easy-novnc**: Cliente noVNC web (puerto 5001 local)
+- **Python Proxy**: Servidor proxy que muestra intro y redirige (puerto 5000)
+- **Openbox**: Gestor de ventanas ligero
 - **Supervisor**: Gestor de procesos
 
 ### Archivos de Configuración
+- `Dockerfile` - Configuración de construcción de Docker
 - `supervisord.conf` - Configuración de servicios
-- `rc.xml` - Configuración de Openbox (centrado de ventanas, temas)
+- `rc.xml` - Configuración de Openbox (centrado de ventanas)
 - `menu.xml` - Menú de aplicaciones personalizado
+- `intro.html` - Página de animación de inicio
+- `novnc-proxy.py` - Servidor proxy que sirve intro y redirige a noVNC
 - `tint2rc` - Configuración del panel
 - `autostart.sh` - Script de inicio automático
-- `setup_environment.sh` - Script de configuración del entorno
 
-## Notas
-- Este proyecto está optimizado para funcionar en el entorno Replit
-- El escritorio se redimensiona automáticamente al tamaño de tu ventana del navegador
-- Puedes instalar más aplicaciones usando los gestores de paquetes (pip para Python, etc.)
+## Personalización
+
+### Cambiar Fondo
+```bash
+# Dentro del escritorio VNC, en XTerm:
+feh --bg-scale /ruta/a/imagen.jpg
+```
+
+### Agregar Aplicaciones al Menú
+Editar `menu.xml` y reconstruir la imagen Docker.
 
 ## Estado Actual
-✅ Todos los servicios funcionando correctamente
-✅ Escritorio VNC accesible en puerto 5000
-✅ Java, Python y todas las aplicaciones instaladas
-✅ Menú personalizado en español
-✅ Ventanas configuradas para abrirse centradas
-✅ Fondo personalizable
+✅ Dockerfile configurado para GitHub Codespaces
+✅ Animación de inicio tipo HackTheBox con logo Docker
+✅ Menú limpio con solo las apps solicitadas
+✅ Usuario configurado en /home/user/ con sudo
+✅ Ventanas centradas automáticamente
+✅ Sistema completo de proxy para servir intro + VNC

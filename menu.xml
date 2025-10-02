@@ -1,75 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/ file:///usr/share/openbox/menu.xsd">
-    <menu id="root-menu" label="Aplicaciones">
-        <item label="Firefox">
+    <menu id="root-menu" label="Applications">
+        <menu id="internet" label="Internet">
+            <item label="Firefox">
+                <action name="Execute">
+                    <execute>firefox</execute>
+                </action>
+            </item>
+        </menu>
+        <separator />
+        <item label="Terminal">
             <action name="Execute">
-                <execute>firefox</execute>
+                <execute>xterm</execute>
             </action>
         </item>
         <separator />
-        <menu id="terminals" label="Terminales">
-            <item label="LXTerminal">
-                <action name="Execute">
-                    <execute>lxterminal</execute>
-                </action>
-            </item>
-            <item label="Terminator">
-                <action name="Execute">
-                    <execute>terminator</execute>
-                </action>
-            </item>
-            <item label="XTerm">
-                <action name="Execute">
-                    <execute>xterm</execute>
-                </action>
-            </item>
-        </menu>
-        <separator />
-        <menu id="development" label="Desarrollo">
+        <menu id="editors" label="Editors">
             <item label="NeoVim">
                 <action name="Execute">
-                    <execute>lxterminal -e nvim</execute>
-                </action>
-            </item>
-            <item label="Python 3.11">
-                <action name="Execute">
-                    <execute>lxterminal -e python</execute>
-                </action>
-            </item>
-            <item label="Java 21">
-                <action name="Execute">
-                    <execute>lxterminal -e bash -c "java -version; bash"</execute>
+                    <execute>xterm -e nvim</execute>
                 </action>
             </item>
         </menu>
         <separator />
-        <menu id="system" label="Sistema">
-            <item label="Htop (Monitor de Sistema)">
+        <menu id="accessories" label="Accessories">
+            <item label="Calculator">
                 <action name="Execute">
-                    <execute>lxterminal -e htop</execute>
-                </action>
-            </item>
-            <item label="Neofetch">
-                <action name="Execute">
-                    <execute>lxterminal -e bash -c "neofetch; bash"</execute>
-                </action>
-            </item>
-            <item label="Gestor de Archivos">
-                <action name="Execute">
-                    <execute>lxterminal -e bash -c "cd /home/runner/novnc-desktop; bash"</execute>
+                    <execute>galculator</execute>
                 </action>
             </item>
         </menu>
         <separator />
-        <menu id="settings" label="Configuración">
-            <item label="Cambiar Fondo">
+        <menu id="multimedia" label="Multimedia">
+            <item label="MPlayer">
                 <action name="Execute">
-                    <execute>lxterminal -e bash -c "echo 'Usa: feh --bg-scale /ruta/a/imagen.jpg'; bash"</execute>
+                    <execute>mplayer</execute>
                 </action>
             </item>
         </menu>
         <separator />
-        <item label="Reconfiguramos Openbox">
+        <menu id="files" label="File Manager">
+            <item label="Dolphin">
+                <action name="Execute">
+                    <execute>dolphin</execute>
+                </action>
+            </item>
+        </menu>
+        <separator />
+        <menu id="system" label="System">
+            <item label="Htop">
+                <action name="Execute">
+                    <execute>xterm -e htop</execute>
+                </action>
+            </item>
+            <item label="System Info">
+                <action name="Execute">
+                    <execute>xterm -e bash -c "neofetch; bash"</execute>
+                </action>
+            </item>
+        </menu>
+        <separator />
+        <item label="Reconfigure Openbox">
             <action name="Reconfigure" />
         </item>
     </menu>

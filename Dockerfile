@@ -7,26 +7,61 @@ RUN go mod init build && \
 FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive 
 
+# Install base packages
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends openbox tint2 xdg-utils lxterminal hsetroot tigervnc-standalone-server supervisor && \
+    apt-get install -y --no-install-recommends \
+    openbox tint2 xdg-utils xterm hsetroot \
+    tigervnc-standalone-server supervisor sudo && \
     rm -rf /var/lib/apt/lists
 
+# Install applications
 RUN apt-get update -y && \
-    apt-get install -y neovim openssh-client openssh-server wget curl nmap busybox net-tools rsync ca-certificates apulse libpulse0 firefox htop neofetch tar xzip gzip bzip2 zip unzip && \
+    apt-get install -y --no-install-recommends \
+    neovim firefox htop neofetch \
+    wget curl git ca-certificates \
+    galculator mplayer dolphin feh \
+    openjdk-21-jdk openjdk-8-jdk \
+    python3 python3-pip \
+    tar gzip bzip2 zip unzip && \
     rm -rf /var/lib/apt/lists
 
+# Copy easy-novnc binary and custom files
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
+COPY intro.html /usr/local/share/
+COPY novnc-proxy.py /usr/local/bin/
+RUN chmod +x /usr/local/bin/novnc-proxy.py
+
+# Create user with home directory and sudo access
+RUN useradd -m -s /bin/bash -G sudo user && \
+    echo 'user:linuxx' | chpasswd && \
+    mkdir -p /home/user && \
+    chown -R user:user /home/user
+
+# Copy configuration files
 COPY supervisord.conf /etc/
 COPY menu.xml /etc/xdg/openbox/
-RUN echo 'hsetroot -solid "#123456" &' >> /etc/xdg/openbox/autostart
-
-RUN mkdir -p /etc/firefox
-RUN echo 'pref("browser.tabs.remote.autostart", false);' >> /etc/firefox/syspref.js
-
-RUN mkdir -p /home/user/
-
-RUN mkdir -p /root/.config/tint2
+COPY rc.xml /etc/xdg/openbox/
+RUN mkdir -p /root/.config/tint2 /home/user/.config/tint2 /etc/xdg/openbox
 COPY tint2rc /root/.config/tint2/
+COPY tint2rc /home/user/.config/tint2/
+COPY autostart.sh /etc/xdg/openbox/autostart
 
-EXPOSE 8080
-ENTRYPOINT ["/bin/bash", "-c", "/usr/bin/supervisord"]
+# Make scripts executable
+RUN chmod +x /etc/xdg/openbox/autostart && \
+    chown -R user:user /home/user/.config
+
+# Set up Java environment
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Firefox preferences
+RUN mkdir -p /etc/firefox && \
+    echo 'pref("browser.tabs.remote.autostart", false);' >> /etc/firefox/syspref.js
+
+# Set default wallpaper
+RUN echo 'hsetroot -solid "#2c3e50" &' >> /etc/xdg/openbox/autostart
+
+EXPOSE 5000
+WORKDIR /home/user
+USER root
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
