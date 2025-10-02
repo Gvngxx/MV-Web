@@ -22,7 +22,7 @@ RUN apt-get update -y && \
     wget curl git ca-certificates \
     galculator mplayer dolphin feh \
     openjdk-21-jdk openjdk-8-jdk \
-    python3 python3-pip \
+    python3 python3-pip lxterminal \
     tar gzip bzip2 zip unzip && \
     rm -rf /var/lib/apt/lists
 

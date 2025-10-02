@@ -14,6 +14,11 @@
                 <execute>xterm</execute>
             </action>
         </item>
+        <item label="Sys Info">
+            <action name="Execute">
+                <execute>lxterminal -e bash -c "neofetch; bash"</execute>
+             </action>
+        </item>
         <separator />
         <menu id="editors" label="Editors">
             <item label="NeoVim">
